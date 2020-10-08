@@ -171,7 +171,7 @@ app.post('/updateusername', async (req, res) => {
 app.post('/deleteuser', async (req, res) => {
     const id = res.locals.userId;
     try {
-        let results = await db.delete_user(id);
+        let results = db.deleteuser(id);
         console.log(results);
         res.redirect('/logout');
     } catch(err) {

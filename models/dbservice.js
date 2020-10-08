@@ -68,19 +68,32 @@ const update_username = function(username, id) {
 
 // remove user
 const deleteuser = function(id) {
-    return new Promise((resolve, reject) => {
-        let query = `
-                        START TRANSACTION;
-                        DELETE FROM users WHERE user_id = ${id};
-                        DELETE FROM posts WHERE user_id = ${id};
-                        COMMIT;
-                    `;
-        connection.query(query, id, (err, results) => {
-            if(err) reject(err);
-            resolve(results);
+    connection.beginTransaction( function(err){
+        if(err) reject(err);
+        connection.query('DELETE FROM users WHERE user_id = ?', id, (err, result) => {
+            if(err) {
+                connection.rollback(() => {
+                    throw err;
+                });
+            }
+        });
+        connection.query('DELETE FROM posts WHERE user_id = ?', id, (err, result) => {
+            if(err) {
+                connection.rollback(() => {
+                    throw err;
+                });
+            }
+            connection.commit((err) => {
+                if(err) {
+                    connection.rollback(() => {
+                        throw err;
+                    });
+                }
+                connection.end();
+            });
         });
     });
-}
+};
 
 //Users posts C-R-U-D operations
 
