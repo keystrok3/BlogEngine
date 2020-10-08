@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Account</title>
+    <link rel="stylesheet" href="/public/bootstrap/css/bootstrap.css">
+</head>
+
+<style>
+    body {
+        background-color: #ecf0f5;
+    }
+
+    form {
+        margin-left: auto;
+    }
+
+    main {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .card {
+        width: 50%;
+        margin-top: 2em;
+    }
+
+    .username, .email {
+        margin: .5em 0;
+        font-weight: 600;
+        font-size: 1.2rem;
+    }
+
+    .row {
+        margin-top: 2em;
+    }
+
+    #newpost{
+        width: 100%;
+    }
+
+    .form-btns {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+    }
+
+    .form-btns button {
+        width: 9em;
+    }
+</style>
+<body>
+    <div class="container">
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" href="#">Navbar</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                  <div class="navbar-nav">
+                    <a class="nav-item nav-link" href="/home">Home</a>
+                    <a class="nav-item nav-link loginitem" href="account">Account</a>
+                    <a class="nav-item nav-link loginitem active" href="#">New Post<span class="sr-only">(current)</span></a>
+                    <a class="nav-item nav-link loginitem" href="/editprofile">Edit Profile</a>
+                  </div>
+                  <form action="/logout" method="post">
+                    <button class="logout-btn">Logout</button>
+                  </form>
+                </div>
+              </nav>
+        </header>
+        <main>
+            <div class="row col-8">
+                <form action="/newpost" method="post" id="newpost">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" name="posttitle" id="title">
+                    </div>
+                    <div class="form-group">
+                        <label for="t-area">Body</label>
+                        <textarea name="postbody" class="form-control" id="t-area" cols="30" rows="10"></textarea>
+                    </div>
+                    <button style="border-color:#343a40" type="submit" class="btn btn-primary bg-dark">POST</button>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+<script>
+    document.querySelector('#newpost').addEventListener('submit', (event) => {
+        event.preventDefault();
+        fetch(event.target.action, {
+            method: 'POST',
+            body: new URLSearchParams(new FormData(event.target))
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            alert(data.msg);
+        }).catch(err => {
+            console.error(err);
+        });
+    });
+</script>
+</html>
