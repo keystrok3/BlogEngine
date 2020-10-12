@@ -29,8 +29,8 @@ const register_user = function(user_name, email, password) {
 // Get user by ther username
 const find_user = function(username) {
     return new Promise((resolve, reject) => {
-        let query = `SELECT * FROM users WHERE user_name = ${username};`;
-        connection.query(query, (err, results) => {
+        let query = `SELECT * FROM users WHERE user_name = ?;`;
+        connection.query(query, [username], (err, results) => {
             if(err) reject(err);
             resolve(results);
         });
@@ -171,5 +171,8 @@ const delete_post = function(postId) {
 
 
 
-module.exports = { register_user, find_user, update_email, update_username, findById, deleteuser, create_post, get_all_posts_from_one, 
-                    get_one_post, get_all_posts, update_post, delete_post };
+module.exports = { 
+                    register_user, find_user, update_email, update_username, findById, 
+                    deleteuser, create_post, get_all_posts_from_one, 
+                    get_one_post, get_all_posts, update_post, delete_post 
+                };
