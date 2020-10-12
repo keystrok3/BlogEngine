@@ -1,0 +1,26 @@
+josaya jwalutsachi4@gmail.com secret
+jane eyre@gmail.com  secret2
+suttom sbrady@gmail.com secret3
+nathanlane lein@gmail.coim secret4
+
+
+/
+   - Login form
+   - Links to: Login, Register
+   - Redirects to /home on login
+
+/home
+   - Feed
+   - Links to: Home, Login, Register
+
+/account
+   - Profile
+   - Links to: Home
+   - Buttons to: createpost, editpost
+   - Logout button
+
+
+
+/register
+    - Registration page
+    - Links to Home, Login, Register

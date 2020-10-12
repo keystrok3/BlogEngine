@@ -1,0 +1,44 @@
+GET http://localhost:3000
+
+###
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "user_name": "josaya",
+    "password": "secret"
+}
+
+###
+POST http://localhost:3000/register
+Content-Type: application/json
+
+{
+    "username": "nanarose",
+    "email": "nrose@gmail.com",
+    "password": "secret3"
+}
+
+###
+POST http://localhost:3000/logout
+
+###
+POST http://localhost:3000/addpost
+Content-Type: application/json
+
+{
+    "title": "The Subtle Art of Talking To Yourself",
+    "body": "Blah blah"
+}
+
+
+###
+GET http://localhost:3000/home
+
+####
+
+POST http://localhost:3000/deleteuser
+
+
+###
+GET http://localhost:3000/userbyname?username='josaya'

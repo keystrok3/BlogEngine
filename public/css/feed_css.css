@@ -1,0 +1,15 @@
+.feed {
+    margin-top: 2em;
+}
+
+.card {
+    margin: 2em 0;
+}
+
+.card-header {
+    font-size: 1rem;
+}
+
+.card-header i {
+    margin-right: .5em;
+}

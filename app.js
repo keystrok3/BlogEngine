@@ -64,19 +64,31 @@ app.get('/', (req, res) => {
     res.render('index.ejs');
 });
 
-app.get('/home', loggedIn, async (req, res) => {
+app.get('/home', loggedIn, (req, res) => {
+    res.render('home.ejs');
+});
+
+// Fetch all posts by all users
+app.get('/getallposts', async (req, res) => {
     try {
         let results = await db.get_all_posts();
-        // results.forEach(result => {
-        //     console.log(result.user_id, result.DAY, result.MONTH, result.YEAR, result.title, result.body, result.user_name);
-        // });
-        console.log(results);
-        res.render('home.ejs');
+        //create object post feed and store post data in array inside it
+        let post_feed = { username:[], day:[], month:[], year:[], title:[], body:[] };
+        results.forEach(result => {
+            post_feed.username.push(result.user_name);
+            post_feed.day.push(result.DAY);
+            post_feed.month.push(result.MONTH);
+            post_feed.year.push(result.YEAR);
+            post_feed.title.push(result.title);
+            post_feed.body.push(result.body);
+        });
+
+        res.send({post_feed: post_feed});
     } catch(error) {
         console.log(error);
-        res.render('home.ejs', {error: error});
     }
 });
+
 
 app.get('/newpost', (req, res) => {
     res.render('newpost.ejs');
@@ -185,6 +197,7 @@ app.post('/updateusername', async (req, res) => {
     }
 });
 
+// Removes user from db
 app.post('/deleteuser', async (req, res) => {
     const id = res.locals.userId;
     try {

@@ -3,10 +3,10 @@ const mysql = require('mysql');
 require('dotenv').config();
 
 const connection = mysql.createConnection({
-    user: process.env.USER,
-    host: process.env.HOST,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE
+    user: 'root',
+    host: 'localhost',
+    password: 'veritas',
+    database: 'BlogDB'
 });
 
 connection.connect(err => {
@@ -29,7 +29,7 @@ const register_user = function(user_name, email, password) {
 // Get user by ther username
 const find_user = function(username) {
     return new Promise((resolve, reject) => {
-        let query = `SELECT * FROM users WHERE user_name = "${username}";`;
+        let query = `SELECT * FROM users WHERE user_name = ${username};`;
         connection.query(query, (err, results) => {
             if(err) reject(err);
             resolve(results);
