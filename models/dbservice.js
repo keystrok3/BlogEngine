@@ -1,10 +1,12 @@
 const mysql = require('mysql');
 
+require('dotenv').config();
+
 const connection = mysql.createConnection({
-    user: 'root',
-    host: 'localhost',
-    password: 'veritas',
-    database: 'BlogDB'
+    user: process.env.USER,
+    host: process.env.HOST,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE
 });
 
 connection.connect(err => {
@@ -135,8 +137,8 @@ const get_one_post = function(userId, postId) {
 //----Get all posts from all users
 const get_all_posts = function() {
     return new Promise((resolve, reject) => {
-        let query = `SELECT posts.user_id, posttime, posts.title, posts.body, users.user_name FROM posts \
-                    INNER JOIN users ON posts.user_id = users.user_id;`;
+        let query = `SELECT posts.user_id, DAYNAME(posttime) AS DAY, MONTHNAME(posttime) AS MONTH, YEAR(posttime) AS YEAR, \
+                     posts.title, posts.body, users.user_name FROM posts INNER JOIN users ON posts.user_id = users.user_id;`;
         connection.query(query, (err, results) => {
             if(err) reject(err);
             resolve(results);

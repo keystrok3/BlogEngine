@@ -1,13 +1,19 @@
 "use strict";
 
+// This Express Application will
+// allow users to create and run their own blogs
+// Runs on MySQL db and uses session for authentication
 const express = require('express');
-const bcrypt = require('bcrypt');
-const db = require('./models/dbservice');
-
+const bcrypt = require('bcrypt');   //bcrypt for creating password hashes
+const db = require('./models/dbservice');   //database operations
 const session = require('express-session');
+require('dotenv').config();
+
 const app = express();
 
-const TWO_HOURS = 1000 * 60 * 60 * 2;
+const port = process.env.PORT;
+
+const TWO_HOURS = 1000 * 60 * 60 * 2;   //lifetime of session cookie
 
 const {
     SESS_NAME = 'sid',
@@ -15,6 +21,7 @@ const {
     SESS_SECRET = 'mysecret'
 } = process.env;
 
+//Session settings
 app.use(session({
     name: SESS_NAME,
     resave: false,
@@ -57,8 +64,18 @@ app.get('/', (req, res) => {
     res.render('index.ejs');
 });
 
-app.get('/home', loggedIn, (req, res) => {
-    res.render('home.ejs');
+app.get('/home', loggedIn, async (req, res) => {
+    try {
+        let results = await db.get_all_posts();
+        // results.forEach(result => {
+        //     console.log(result.user_id, result.DAY, result.MONTH, result.YEAR, result.title, result.body, result.user_name);
+        // });
+        console.log(results);
+        res.render('home.ejs');
+    } catch(error) {
+        console.log(error);
+        res.render('home.ejs', {error: error});
+    }
 });
 
 app.get('/newpost', (req, res) => {
@@ -199,22 +216,4 @@ app.post('/addpost', async (req, res) => {
     }
 });
 
-app.get('/getposts', async (req, res) => {
-    try {
-        let results = await db.get_all_posts();
-        
-        if(results.length === 0) {
-            console.log('No Posts');
-        } else {
-            results.forEach(result => {
-                console.log(result.user_name, result.title, result.body);
-            });
-        }
-        res.send();
-    } catch (error) {
-        console.log(error);
-        res.send();
-    }
-});
-
-app.listen(3000);
+app.listen(port);

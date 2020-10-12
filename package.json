@@ -1,12 +1,15 @@
 {
-  "name": "Blog",
+  "name": "BlogEngine",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
+  "dependencies": {
+    "dotenv": "^6.14.2"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "MIT"
 }

@@ -88,19 +88,4 @@
         </main>
     </div>
 </body>
-
-<script>
-    const inputEmail = document.getElementById('email');
-    const inputText = document.getElementById('username');
-    
-    fetch('http://localhost:3000/account', {
-        method: 'GET'
-    })
-    .then((response) => {
-        response.json();
-    })
-    .then(data => {
-        console.log(data.username, data.email);
-    });
-</script>
 </html>
